@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Global Variables
     var main = document.getElementById('trivia-q');
-    var count = 0;
-    var factTimer;
+    var answers = document.getElementById('trivia-a');
 
     // Trivia Object Constructor
     var trivia = function (question, option1, option2, option3, answer, fact) {
@@ -22,13 +21,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
     var croc = new trivia ('which animal has the strongest bite of any animal?','shark','hippo','lion', 'crocodile', 'Nile crocodiles have a bite measusred at 5000 psi');
 
-    var tortoise = new trivia('Which animal has the longest lifespan?', 'whale', 'elephant', 'turtle', 'tortoise', 'Giant Tortoise:  150 - 177 years');
+    var tortoise = new trivia('Which animal has the longest lifespan?', 'whale', 'elephant', 'turtle', 'tortoise', 'Giant Tortoises may live up to between 150 - 177 years');
 
-    var sloth = new trivia('What is the worlds slowest moving animal relative to its size?', 'starfish', 'snail', 'your tax return', 'sloth', 'Three Toed Sloth; Reaches a max speed of 0.003mph, which is slower than the average starfish');
+    var sloth = new trivia('What is the worlds slowest moving animal relative to its size?', 'starfish', 'snail', 'your tax return', 'sloth', 'Three Toed Sloth only reaches a max speed of 0.003mph, which is slower than the average starfish');
 
-    var falcon = new trivia('What is the fastest animal alive?', 'cheeta', 'dolphin', 'tuna', 'falcon',  'Peregrine Falcon.  Reach dive speeds approaching 200mph');
+    var falcon = new trivia('What is the fastest animal alive?', 'cheeta', 'dolphin', 'tuna', 'falcon',  'Peregrine Falcon may reach dive speeds approaching 200mph');
 
-    var bat = new trivia('What is the worlds smallest mammal?', 'lemur', 'mouse', 'mole', 'bat', 'The Bumble Bee Bat grows to 1.2 inches long');
+    var bat = new trivia('What is the worlds smallest mammal?', 'lemur', 'mouse', 'mole', 'bat', 'The Bumble Bee Bat grows to a max lengrg of only 1.2 inches');
 
     var mosquito = new trivia('What is the worlds most dangerous animal to humans?', 'tiger', 'hippo', 'cape buffalo', 'mosqito', 'Mosquito:  ~750,000 deaths a year');
 
@@ -40,67 +39,104 @@ document.addEventListener('DOMContentLoaded', function(){
 
     var beetle = new trivia('for its size, What is the strongest animal on earth', 'ant', 'wolverine', 'toger', 'beetle', 'Dung Beatle; They can lift 1140x their body weight which is equivalent to the average human lifting 80 tons');
 
+    // did not use all the objects for this project
+    // var names = [bat, croc, tortoise, sloth, falcon, shark, mosquito, swhale, octopus, bwhale, beetle];
 
+    var names = [bat, croc, tortoise, sloth, falcon];
 
-    var names = [shark, croc, tortoise, sloth, falcon, bat, mosquito, swhale, octopus, bwhale, beetle];
-
-
-    // Lame but effective way to iterate through the array.  Loops and timers are difficult due to call stack
-    //setTimeout(function() {callTrivia(names[0]);}, 5000);
-    //setTimeout(function() {callTrivia(names[1]);}, 10000);
-    //setTimeout(function() {callTrivia(names[1]);}, 15000);
-
-    function displayTrivia() {
-        main.innerHTML = '';    
-        let question = document.createElement('p');
-        let option1 = document.createElement('p');
-        let option2 = document.createElement('p');
-        let option3 = document.createElement('p');
-        let answer = document.createElement('p');
-        question.appendChild(document.createTextNode(names[count].question));
-        option1.appendChild(document.createTextNode(names[count].option1));
-        option2.appendChild(document.createTextNode(names[count].option2));
-        option3.appendChild(document.createTextNode(names[count].option3));
-        answer.appendChild(document.createTextNode(names[count].answer));
-        main.appendChild(question);
-        main.appendChild(option1);
-        main.appendChild(option2);
-        main.appendChild(option3);
-        main.appendChild(answer);
-    }
-
-
+    // iterate through trivia object array and diplay questions
     function init(){
-    // show initial question with button click
-        displayTrivia(names[0]);
-        factTimer = setInterval(function(){
+        for (var i = 0; i < names.length; i++) {
 
-            // arguments passed to setInterval()
-            displayTrivia();  // note!!!!!!!: this does not work if I pass 'displayTrivia;' without the ()
-            count++;
-            if (count === names.length) {
-                clearInterval(factTimer);
-            }
-
-        }, 5000);
+            displayTrivia(names[i]);
+        }
     }
 
+    // function takes argument of array memeber (trivia object)
+    function displayTrivia(x) {
+ 
+        // create question node   
+        let spacer = document.createElement('br');
+        let question = document.createElement('p');
+        let answersP = document.createElement('p');
+        question.appendChild(document.createTextNode(x.question));
 
-    // click function to start the game;
-    document.getElementById('startBtn').addEventListener('click', init);
+        // create spans with classes and IDs
+        let answerSP1 = document.createElement('span');
+        answerSP1.className = 'd-md-inline ml-3 mb-5 p-3';
+        answerSP1.id = x.option1;
+
+        let answerSP2 = document.createElement('span');
+        answerSP2.className = 'd-md-inline ml-3 mb-5 p-3';
+        answerSP2.id = x.option2;
+
+        let answerSP3 = document.createElement('span');
+        answerSP3.className = 'd-md-inline ml-3 mb-5 p-3';
+        answerSP3.id = x.option3;
+
+        let answerSPA = document.createElement('span');
+        answerSPA.className = 'd-md-inline ml-3 mb-5 p-3';
+        answerSPA.id = x.answer;
+        
+        // create text nodes
+        answerSP1.appendChild(document.createTextNode(x.option1));
+        answerSP2.appendChild(document.createTextNode(x.option2));
+        answerSP3.appendChild(document.createTextNode(x.option3));
+        answerSPA.appendChild(document.createTextNode(x.answer));
+
+        // append to paragraphs
+
+        answersP.appendChild(answerSP1);
+        answersP.appendChild(answerSP2);
+        answersP.appendChild(answerSP3);
+        answersP.appendChild(answerSPA);
+    
+
+        // append to document
+        main.appendChild(question);
+        main.appendChild(answersP);
+        main.appendChild(answersP);
+        main.appendChild(answersP);
+        main.appendChild(answersP);
+        main.appendChild(spacer);
+        main.appendChild(spacer);
+        
+    }
+
+    // countdown timer for quiz ending
+
+    var timeleft = 60;
+    var quizTimer = setInterval(function(){
+
+        // Quiz timer with progress bar
+        var pg = document.getElementById('progressBar');
+        pg.value = 60 - (--timeleft);
+        //console.log('DEBUG', timeleft);
+        if(timeleft <=0) {
+            clearInterval(quizTimer);
+            main.innerHTML = '';
+            main.appendChild(document.createTextNode('Time is up!'));
+            pg.value = '';
+
+            // Show facts about anwser animals
+            for (var z = 0; z < names.length; z ++) {
+                let interesting = document.createElement('p');
+                let lineBreak = document.createElement('br');
+                interesting.appendChild(document.createTextNode(names[z].fact));
+                answers.appendChild(interesting);
+                answers.appendChild(lineBreak);
+            // emd loop
+            }
+        
+        // end timer
+        }
+
+    // execute every second
+    }, 1000);
+
+    
+    //start the game
+    init();
 
 
-    // above are some tests to ensure things can be done
-    // start button will start the trivia game
-    // need setinterval for trivia card read
-        // stop button will clearInterval
-        // clear interval can also be used in the loop if I only want to show the cards once each.  The user can then click start again if they want to play a second time
-        // note: start needs to load first queston without delay, all other questions should be delayed 15 seconds.
-    // need setTimeout (perhaps use my countdown timer gist) allow the user 15 seconds to guess before the answer is shown.
-    // users can select the correct answer click event
-        // correct = wins++
-        // incorrect or timeout = no points
-
-
-
-});
+}); // end javascript
